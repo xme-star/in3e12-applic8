@@ -1,14 +1,21 @@
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import java.awt.*;
-import java.awt.event.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class Convertisseur extends JFrame implements ActionListener{
-	// le taux de conversion
 	protected double taux=1.3563; // 1 euro = 1.3563 dollars
 	protected JLabel tauxL; // permet l'affichage du taux de conversion
 	protected JTextField euro; // contient la valeur à convertir
 	protected JTextField dollar; // contient la valeur convertie
+	protected JButton convertir; // bouton pour lancer la conversion
 
 	public Convertisseur(){
 		super("convertisseur 1.0");
@@ -19,6 +26,12 @@ public class Convertisseur extends JFrame implements ActionListener{
 		JPanel pNord=new JPanel();
 		JPanel pEuro=new JPanel(new BorderLayout());
 		JPanel pDollar=new JPanel(new BorderLayout());
+		JPanel pCentre=new JPanel();
+		JPanel pSud=new JPanel();
+
+		contentPane.add(pNord,BorderLayout.NORTH);
+		contentPane.add(pCentre,BorderLayout.CENTER);
+		contentPane.add(pSud,BorderLayout.SOUTH);
 
 		pEuro.add(new JLabel("Euro"),BorderLayout.NORTH); // Ajout d'un label pour écrire euro
 		pEuro.add(euro=new JTextField(10),BorderLayout.SOUTH);
@@ -33,10 +46,15 @@ public class Convertisseur extends JFrame implements ActionListener{
 		pTaux.add(tauxL=new JLabel("taux de conversion : 1 euro = 1.35$"));
 		contentPane.add(pTaux,BorderLayout.CENTER);
 
+		convertir=new JButton("Convertir");
+		pSud.add(convertir);
+		convertir.addActionListener(this);
+
 		// intégration d'un menu en utilisant la classe MenuConvertisseur
 		this.setJMenuBar(new MenuConvertisseur(this));
 
 		this.pack();
+		this.setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
@@ -54,6 +72,14 @@ public class Convertisseur extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e){
-		System.out.println(e);
+		if(e.getSource()==convertir){
+			try{
+				double deuros=Double.parseDouble(euro.getText());
+				double x=deuros*taux;
+				dollar.setText(((int)(x*100))/100.+"");
+			}catch(Exception f){
+				JOptionPane.showMessageDialog(null,"Entrez un nombre !","alert",JOptionPane.ERROR_MESSAGE);
+			}
+		}
 	}
 }
