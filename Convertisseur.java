@@ -2,6 +2,9 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.security.Key;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -10,7 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class Convertisseur extends JFrame implements ActionListener{
+public class Convertisseur extends JFrame implements ActionListener, KeyListener{
 	protected double taux=1.3563; // 1 euro = 1.3563 dollars
 	protected JLabel tauxL; // permet l'affichage du taux de conversion
 	protected JTextField euro; // contient la valeur à convertir
@@ -46,9 +49,11 @@ public class Convertisseur extends JFrame implements ActionListener{
 		pTaux.add(tauxL=new JLabel("taux de conversion : 1 euro = 1.35$"));
 		contentPane.add(pTaux,BorderLayout.CENTER);
 
-		convertir=new JButton("Convertir");
+		convertir=new JButton("Convertir"); // Ajout bouton convertir
 		pSud.add(convertir);
-		convertir.addActionListener(this);
+		convertir.addActionListener(this); // Suivi actions sur bouton convertir
+		
+		euro.addKeyListener(this); // Suivi touches sur TextField euro
 
 		// intégration d'un menu en utilisant la classe MenuConvertisseur
 		this.setJMenuBar(new MenuConvertisseur(this));
@@ -70,16 +75,40 @@ public class Convertisseur extends JFrame implements ActionListener{
 		c.setVisible(true);
 	}
 
+	private void convertir(){
+		try{
+			double deuros=Double.parseDouble(euro.getText().replace(',','.'));
+			double x=deuros*taux;
+			dollar.setText(((int)(x*100))/100.+"");
+		}catch(Exception f){
+			JOptionPane.showMessageDialog(null,"Entrez un nombre !","alert",JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e){
 		if(e.getSource()==convertir){
-			try{
-				double deuros=Double.parseDouble(euro.getText());
-				double x=deuros*taux;
-				dollar.setText(((int)(x*100))/100.+"");
-			}catch(Exception f){
-				JOptionPane.showMessageDialog(null,"Entrez un nombre !","alert",JOptionPane.ERROR_MESSAGE);
-			}
+			convertir();
 		}
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e){
+		if(e.getKeyCode()==KeyEvent.VK_ENTER){ // détecte l'appui sur ENTREE pour lancer la conversion
+			convertir();
+		}else if(e.getKeyCode()==KeyEvent.VK_DELETE){ // détecte l'appui sur SUPPR pour effacer les champs
+			euro.setText("");
+			dollar.setText("");
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e){
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e){
+		// TODO Auto-generated method stub
 	}
 }
