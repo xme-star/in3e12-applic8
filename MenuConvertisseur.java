@@ -40,7 +40,7 @@ public class MenuConvertisseur extends JMenuBar implements ActionListener{
 		}else if(e.getSource()==itemQuitter){
 			System.exit(0);
 		}else if(e.getSource()==itemApropos){
-			JOptionPane.showMessageDialog(conv,"<HTML><BODY>Auteur : Ibrahim ALAME <BR><I>ibrahim.alame@gmail.com</I></BODY></HTML>");
+			JOptionPane.showMessageDialog(conv,"<HTML><BODY><h1>Want to chat with me ? :)</h1>Auteur : xme-star <BR><I>https://tlk.io/xme-star</I></BODY></HTML>");
 		}
 	}
 }
