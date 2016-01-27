@@ -1,4 +1,5 @@
 import javax.swing.*;
+
 import java.awt.event.*;
 
 // La barre du menu convertisseur
@@ -7,6 +8,7 @@ public class MenuConvertisseur extends JMenuBar implements ActionListener{
 	private JMenuItem itemConfig; // item du menu
 	private JMenuItem itemQuitter; // item du menu
 	private JMenuItem itemApropos; // item du menu
+	private DialogConfiguration dialTaux; // configuration du taux
 
 	public MenuConvertisseur(Convertisseur c){
 		conv=c;
@@ -22,15 +24,19 @@ public class MenuConvertisseur extends JMenuBar implements ActionListener{
 		itemConfig.addActionListener(this);
 		itemQuitter.addActionListener(this);
 		itemApropos.addActionListener(this);
-		
+
 		this.add(menuFichier);
 		this.add(menuAide);
+
+		// intégration DialogConfig pour configurer le taux
+		dialTaux=new DialogConfiguration(c);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e){
 		if(e.getSource()==itemConfig){
 			System.out.println("Configuration ...");
+			dialTaux.setVisible(true);
 		}else if(e.getSource()==itemQuitter){
 			System.exit(0);
 		}else if(e.getSource()==itemApropos){

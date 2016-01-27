@@ -9,20 +9,21 @@ public class Convertisseur extends JFrame implements ActionListener{
 	protected JLabel tauxL; // permet l'affichage du taux de conversion
 	protected JTextField euro; // contient la valeur à convertir
 	protected JTextField dollar; // contient la valeur convertie
-	
+
 	public Convertisseur(){
 		super("convertisseur 1.0");
 
 		Container contentPane=this.getContentPane();
 		contentPane.setLayout(new BorderLayout());
-		
+
 		JPanel pNord=new JPanel();
 		JPanel pEuro=new JPanel(new BorderLayout());
+		JPanel pDollar=new JPanel(new BorderLayout());
+
 		pEuro.add(new JLabel("Euro"),BorderLayout.NORTH); // Ajout d'un label pour écrire euro
 		pEuro.add(euro=new JTextField(10),BorderLayout.SOUTH);
 		pNord.add(pEuro);
 
-		JPanel pDollar=new JPanel(new BorderLayout());
 		pDollar.add(new JLabel("Dollars"),BorderLayout.NORTH);
 		pDollar.add(dollar=new JTextField(10),BorderLayout.SOUTH);
 		dollar.setEditable(false);
@@ -34,9 +35,14 @@ public class Convertisseur extends JFrame implements ActionListener{
 
 		// intégration d'un menu en utilisant la classe MenuConvertisseur
 		this.setJMenuBar(new MenuConvertisseur(this));
-		
+
 		this.pack();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+
+	public void setTaux(double x){
+		taux=x;
+		tauxL.setText("Le taux de converssion est de :  1€ = "+taux+"$");
 	}
 
 	public static void main(String args[]){
