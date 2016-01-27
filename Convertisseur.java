@@ -32,6 +32,9 @@ public class Convertisseur extends JFrame implements ActionListener{
 		pTaux.add(tauxL=new JLabel("taux de conversion : 1 euro = 1.35$"));
 		contentPane.add(pTaux,BorderLayout.CENTER);
 
+		// intégration d'un menu en utilisant la classe MenuConvertisseur
+		this.setJMenuBar(new MenuConvertisseur(this));
+		
 		this.pack();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
